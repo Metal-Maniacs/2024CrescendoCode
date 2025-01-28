@@ -4,16 +4,16 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import frc.robot.Constants;
 
-public class DriveTank extends Command {
-  /** Creates a new DriveTank. */
-  public DriveTank() {
+
+public class AmpShoot extends Command {
+  /** Creates a new AmpShoot. */
+  public AmpShoot() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.m_drivetrain);
+    addRequirements(RobotContainer.m_shooter);
   }
 
   // Called when the command is initially scheduled.
@@ -23,17 +23,22 @@ public class DriveTank extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double leftSpeed = RobotContainer.leftJoystick.getRawAxis(Constants.DRIVER_LEFT_Y_AXIS);
-    double rightSpeed = RobotContainer.rightJoystick.getRawAxis(Constants.DRIVER_LEFT_Y_AXIS);
 
-    RobotContainer.m_drivetrain.tankDrive(leftSpeed, rightSpeed);
+    double ampSpeed = Constants.AMP_MOTOR_SPEED;
+    if (RobotContainer.rightJoystick.getRawButton(Constants.AMP_BUTTON)) {
+      RobotContainer.m_shooter.ampScore(ampSpeed);
+    } 
+    else {
+      RobotContainer.m_shooter.ampScore(0);
+    }
+
 
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    // RobotContainer.m_drivetrain.tankDrive(0, 0);
+    RobotContainer.m_shooter.ampScore(0);
   }
 
   // Returns true when the command should end.
